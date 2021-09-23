@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const content = (
+  <div id='nonSsr'>
+    <div>
+      <p id='title'>Title</p>
+      <p>Subtitle</p>
     </div>
-  );
+  </div>
+);
+
+const ssrContent = (
+  <div>
+    <div id='nonSsr'>
+      <p>Title</p>
+      <p style={{ color: 'red'}}>Subtitle</p>
+    </div>
+  </div>
+)
+
+// Initial App
+// function App() {
+//   return content;
+// }
+
+// Broken App
+function App() {
+  if (typeof window === 'undefined') {
+    return ssrContent
+  }
+
+  return content;
 }
+
+// // Fixed App
+// function App() {
+//   const [hasMounted, setHasMounted] = React.useState(false);
+
+//   React.useEffect(() => {
+//     setHasMounted(true);
+//   }, []);
+
+//   if (!hasMounted) {
+//     return ssrContent
+//   }
+
+//   return content;
+// }
 
 export default App;
