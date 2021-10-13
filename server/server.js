@@ -8,9 +8,10 @@ import App from '../src/App'
 
 const PORT = 8000
 const app = express()
+const rootFolder = 'dist'
 
 app.use('^/$', (req, res, next) => {
-  fs.readFile('./build/index.html', 'utf-8', (err, data) => {
+  fs.readFile(`./${rootFolder}/index.html`, 'utf-8', (err, data) => {
     if (err) {
       return res.status(500).send('error')
     }
@@ -22,7 +23,7 @@ app.use('^/$', (req, res, next) => {
   })
 })
 
-app.use(express.static(path.resolve(__dirname, '..', 'build'), ))
+app.use(express.static(path.resolve(__dirname, '..', rootFolder), ))
 
 app.listen(PORT, () => {
   console.log(`App launched on ${PORT}`)
